@@ -1,13 +1,12 @@
 from flask import Flask, render_template, request, jsonify
-import google.generativeai as genai
+from google import genai
 from math_solver import solve_math
 from voice_input import get_voice_input
-
 import os
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-model = genai.GenerativeModel("models/gemini-1.5-flash")
 
 app = Flask(__name__)
+
+client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 FOUNDER_REPLY = (
     "I was created by Jayson, Krushna, Sadhwik, and Gagenesh of 6 Tulip."
@@ -32,7 +31,11 @@ def chat():
     if math_result is not None:
         return jsonify(reply=f"Answer: {math_result}")
 
-    response = model.generate_content(user)
+    response = client.models.generate_content(
+        model="gemini-1.5-flash",
+        contents=user
+    )
+
     return jsonify(reply=response.text)
 
 @app.route("/voice", methods=["POST"])
@@ -42,6 +45,3 @@ def voice():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
-
-
-
