@@ -3,7 +3,8 @@ import google.generativeai as genai
 from math_solver import solve_math
 from voice_input import get_voice_input
 
-genai.configure(api_key="YOUR_GEMINI_API_KEY")
+import os
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 model = genai.GenerativeModel("gemini-pro")
 
 app = Flask(__name__)
@@ -41,3 +42,4 @@ def voice():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
