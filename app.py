@@ -5,7 +5,7 @@ from voice_input import get_voice_input
 
 import os
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("models/gemini-1.5-flash")
 
 app = Flask(__name__)
 
@@ -42,5 +42,6 @@ def voice():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
